@@ -1,28 +1,49 @@
+
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 
 const Home = () => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth();
+    const year = today.getFullYear();
 
-  const [formData , setFormData] = useState({
-    product: '',
-    price: 0,
-    quantity: 0,
-    date: ''
+    const [formData , setFormData] = useState({
+      product: '',
+      price: 0,
+      quantity: 0,
+      date: `${year}-${month+1}-${day}`
 
-  })
+    })
 
-  function handleInput(e){
-    setFormData({...formData, [e.target.name]: e.target.value});
-  }
+    useEffect(()=> {
+      fetchSold()
+    }, []);
 
-  async function handleSubmit(e){
-      e.preventDefault();
-      const res = await fetch("http://localhost:5000/soldout", {
-        method: 'post',
-        body: formData,
-      })
-      console.log(res);
-  }
+    function handleInput(e){
+      setFormData({...formData, [e.target.name]: e.target.value});
+    
+    }
+
+    async function fetchSold(){
+      const res = await fetch("http://localhost:5000/sold");
+      const data = await res.json();
+      console.log(data);
+    }
+
+    async function handleSubmit(e){
+        e.preventDefault();
+        const res = await fetch("http://localhost:5000/sold", {
+          method: 'post',
+          body: JSON.stringify(formData),
+          headers: {
+            'content-type': 'application/json',
+          }
+          
+        })
+        const data = await res.json();
+        console.log(data)
+    }
     
   return (   
     <div>
