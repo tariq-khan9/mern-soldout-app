@@ -8,13 +8,17 @@ const Home = () => {
     const month = today.getMonth();
     const year = today.getFullYear();
 
-    const [formData , setFormData] = useState({
+    const formDataInitial = {
       product: '',
       price: 0,
       quantity: 0,
       date: `${year}-${month+1}-${day}`
 
-    })
+    }
+
+    const [formData , setFormData] = useState(formDataInitial)
+
+    const [soldData, setSoldData] = useState([]);
 
     useEffect(()=> {
       fetchSold()
@@ -28,7 +32,7 @@ const Home = () => {
     async function fetchSold(){
       const res = await fetch("http://localhost:5000/sold");
       const data = await res.json();
-      console.log(data);
+      setSoldData(data);
     }
 
     async function handleSubmit(e){
@@ -41,10 +45,15 @@ const Home = () => {
           }
           
         })
-        const data = await res.json();
-        console.log(data)
+        if(res.ok){
+          setFormData(formDataInitial);
+          fetchSold();
+          
+        }
+        
+        
     }
-    
+    console.log(soldData);
   return (   
     <div>
         <form onSubmit={handleSubmit}>
@@ -54,6 +63,32 @@ const Home = () => {
             <input  type='date' name='date' onChange={handleInput} />
             <button type='submit'>Submit</button>
         </form>
+        <hr/>
+        <section>
+          <table>
+            <thead>
+              <td>Product</td>
+              <td>Unit Price</td>
+              <td>Quantity</td>
+              <td>Total Price</td>
+              <td>Date</td>
+            </thead>
+            <tbody>
+              {soldData.map((item)=>(
+                <tr>
+                  <td>{item.product}</td>
+                  <td>{item.price}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.totalPrice}</td>
+                  <td>{item.date}</td>
+                  
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+
+
     </div>
   )
 }
