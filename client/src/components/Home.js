@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useState, useEffect} from 'react';
+import FormCard from './FormCard.js';
 
 const Home = () => {
     const today = new Date();
@@ -56,6 +57,7 @@ const Home = () => {
     console.log(soldData);
   return (   
     <div>
+      <FormCard/>
         <form onSubmit={handleSubmit}>
             <input  type='text' name='product' onChange={handleInput} placeholder='Enter Product' />
             <input type="number" name='price' onChange={handleInput} placeholder='Enter Price'  />
