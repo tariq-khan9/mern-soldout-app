@@ -1,8 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import passport from 'passport';
+import passportConfig from './auth/passport.js';
 import bodyParser from 'body-parser';
-import SoldRoutes from './routes/sold.js'
+import SoldRoutes from './routes/sold.js';
+import AuthRoutes from './routes/AuthRoutes.js';
 
 const app = express();
 const PORT = 5000;
@@ -13,6 +16,9 @@ console.log("MongoDB Connected")
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/sold", SoldRoutes);
+app.use("/auth", AuthRoutes);
+app.use(passport.initialize());
+passportConfig(passport);
 
 app.get('/', (req, res) => {
   res.send("Hello from server");

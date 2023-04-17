@@ -1,10 +1,11 @@
 import {Router} from 'express';
-import Sold from '../models/Sold.js'
+import Sold from '../models/Sold.js';
+import passport from 'passport';
 
 const router = Router();
 
   
-router.get('/', async (req, res) => {
+router.get('/',passport.authenticate('jwt', { session: false }), async (req, res) => {
     const sold = await Sold.find({}).sort({price: -1});
     res.json(sold);
     
@@ -22,6 +23,20 @@ router.post('/', async (req, res) => {
    })
    await sold.save();
    console.log(res.json({message: "saved"}));
+});
+
+router.delete("/:id", async (req, res) => {
+    
+  await Sold.findOneAndDelete({_id: req.params.id});
+ 
+   res.json({message:"success"});
+    
+});
+
+router.patch('/:id', async (req, res) => {
+
+   await Sold.updateOne({_id: req.params.id}, {$set: req.body})
+   res.json({message:"success"});
 });
   
 export default router;
