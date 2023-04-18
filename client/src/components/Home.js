@@ -34,10 +34,10 @@ const Home = () => {
     const token = cookie.get('token');
     const res = await fetch("http://localhost:5000/sold", {
       headers:{
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
-    const data = await res.json();
+    const {data} = await res.json();
     setSoldData(data);
   }
 
