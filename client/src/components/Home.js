@@ -5,6 +5,7 @@ import { useState, useEffect} from 'react';
 import Button from '@mui/material/Button';
 import { Container } from '@mui/system';
 import dayjs from 'dayjs';
+import { LoggedContext } from '../App.js';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -19,6 +20,7 @@ import cookie from 'js-cookie';
 
 
 const Home = () => {
+  
   const [soldData, setSoldData] = useState([]);
   const [editData, setEditData] = useState({});
 
@@ -53,12 +55,14 @@ const Home = () => {
   }
 
   return (   
+  
   <div>
     <Container>
     <FormCard fetchSold={fetchSold} editData={editData} setEditData={setEditData} formateDate={formateDate}/>
       <hr/>
     <TableContainer component={Paper}>
       <Table  aria-label="simple table">
+        <Button onClick={()=> {console.log(editData)}}>dfdf</Button>
         <TableHead>
           <TableRow>
             <TableCell style={{fontWeight:'bolder'}} align="center">Product</TableCell>
@@ -93,6 +97,7 @@ const Home = () => {
     </TableContainer>
   </Container>
   </div>
+
   )
 }
 

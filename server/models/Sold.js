@@ -9,6 +9,7 @@ const soldSchema = new Schema({
   totalPrice: Number,
   date: Date, 
   
+  
 })
 
 export default new mongoose.model('Sold', soldSchema);

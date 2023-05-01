@@ -19,7 +19,6 @@ const Register = () => {
       password: data.get('password'),
       password_confirmation: data.get('password_confirmation'),
     }
-    console.log(actualData);
     if (actualData.name && actualData.email && actualData.password && actualData.password_confirmation) {
       if (actualData.password === actualData.password_confirmation) {
         const res = fetch('http://localhost:5000/auth/register', {
@@ -27,12 +26,15 @@ const Register = () => {
           body: JSON.stringify(actualData),
           headers: {
             'content-type': 'application/json',
+            
           }
         })
-
+        console.log(res.status);
         /////////////////////////////////////////////////////
         if(res.ok){
           setError({ status: true, msg: "success", type: 'success' })
+          navigate('/login');
+          console.log('created success');
          // document.getElementById('registration-form').reset()
         }
         //else

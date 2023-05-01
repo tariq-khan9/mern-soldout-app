@@ -7,7 +7,7 @@ const router = Router();
   
 router.get('/',passport.authenticate('jwt', { session: false }), async (req, res) => {
     const sold = await Sold.find({}).sort({price: -1});
-    res.json(sold);
+    res.json({data: sold});
     
 });
   
@@ -20,9 +20,10 @@ router.post('/', async (req, res) => {
     totalPrice: (price*quantity),
     date,
     
+    
    })
    await sold.save();
-   console.log(res.json({message: "saved"}));
+  res.status(200).json({message: 'created'});
 });
 
 router.delete("/:id", async (req, res) => {

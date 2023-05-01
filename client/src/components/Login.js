@@ -1,10 +1,12 @@
 import { Grid, TextField, Button, Box, Alert, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import cookie from 'js-cookie';
+import { LoggedContext } from '../App';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
+  const {logged, setLogged} = useContext(LoggedContext);
   const [error, setError] = useState({
     status: false,
     msg: "",
@@ -18,7 +20,7 @@ const Login = () => {
       email: data.get('email'),
       password: data.get('password'),
     }
-    
+    try{
     if ( actualData.email && actualData.password ) {
         const res = await fetch('http://localhost:5000/auth/login', {
           method: 'POST',
@@ -28,19 +30,25 @@ const Login = () => {
           }
         });
         const {token} = await res.json();
+        if(res.status===204){
+          console.log("not matched");
+        }
         /////////////////////////////////////////////////////
         if(res.ok){
-          
+         
           cookie.set('token', token);
           navigate('/');
+          setLogged(true);
+          console.log(logged);
           setError({ status: true, msg: "login success", type: 'success' })
         }
-       
-    
     } else {
       setError({ status: true, msg: "All Fields are Required", type: 'error' })
     }
-
+    }
+    catch(e){
+      setError({ status: true, msg: "Email or Password didnt matched!", type: 'error' })
+    }
     setTimeout(() => {
       setError({
         status: false,

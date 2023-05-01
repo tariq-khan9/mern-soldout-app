@@ -27,29 +27,33 @@ router.post('/register', async (req, res) => {
     const user = User({name, email, password: hashedPassword});
     await user.save();
     console.log(user);
-    res.json({message: 'success'});
+   // res.json({message: 'success'});
+     res.status(200).send({message: 'succuess'});
 });
+   
 
 router.post('/login', async (req, res) => {
     //get all form data
     const {email, password} = req.body;
     
     //check if email exist
-    const userExists = await User.findOne({email})
-     
-    if(userExists){
-        const match = await bcrypt.compare(password, userExists.password);
+    const user = await User.findOne({email})
+     console.log(user);
+    if(user===null){
+        res.status(204).json({message: 'user not found'});
+    }
+    else{
+        
+        const match = await bcrypt.compare(password, user.password);
         if(match){
             
-            const payload = {email, id: userExists.id}
-            const token = jwt.sign({payload}, 'my secret');
+            const payload = {username: email, _id: user._id}
+            const token = jwt.sign(payload, 'my secret');
             res.status(200).json({message: "user logged", token});
         }
         else{
-            res.json({message:"password didnt match"});
+            res.status(204).json({message:"password didnt match"});
         }
-    }else{
-        res.json({message:"user does not exist"});
     };
     
 
