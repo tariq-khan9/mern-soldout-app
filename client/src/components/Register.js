@@ -28,15 +28,21 @@ const Register = () => {
             'content-type': 'application/json',
             
           }
+        }).then(res => res.json()).then(data => {
+          console.log(data); // this will log the resolved value of the promise
+          if(data.message==='success'){
+            setError({ status: true, msg: "success", type: 'success' })
+            navigate('/login');
+            console.log('created success');
+           // document.getElementById('registration-form').reset()
+          }
         })
-        console.log(res.status);
+        .catch(error => {
+          console.error(error); // handle any errors that occurred during the promise chain
+        });
         /////////////////////////////////////////////////////
-        if(res.ok){
-          setError({ status: true, msg: "success", type: 'success' })
-          navigate('/login');
-          console.log('created success');
-         // document.getElementById('registration-form').reset()
-        }
+        
+        
         //else
         // {
         //   setError({ status: true, msg: "error", type: 'error' })

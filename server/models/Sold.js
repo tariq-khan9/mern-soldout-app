@@ -8,6 +8,7 @@ const soldSchema = new Schema({
   quantity: Number,
   totalPrice: Number,
   date: Date, 
+  user: mongoose.Types.ObjectId,
   
   
 })

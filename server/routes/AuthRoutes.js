@@ -28,7 +28,7 @@ router.post('/register', async (req, res) => {
     await user.save();
     console.log(user);
    // res.json({message: 'success'});
-     res.status(200).send({message: 'succuess'});
+     res.status(200).json({message: 'succuess'});
 });
    
 

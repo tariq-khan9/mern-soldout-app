@@ -48,7 +48,7 @@ export default function FormCard({fetchSold, editData, setEditData, formateDate}
       body: JSON.stringify(formData),
       headers: {
         'content-type': 'application/json',
-        //'Authorization' : `Bearer ${token}`,
+        'Authorization' : `Bearer ${token}`,
       }
     })
     if(res.ok){

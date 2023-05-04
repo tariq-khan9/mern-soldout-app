@@ -6,12 +6,13 @@ const router = Router();
 
   
 router.get('/',passport.authenticate('jwt', { session: false }), async (req, res) => {
-    const sold = await Sold.find({}).sort({price: -1});
+    const sold = await Sold.find({user: req.user._id}).sort({price: -1});
     res.json({data: sold});
+    
     
 });
   
-router.post('/', async (req, res) => {
+router.post('/',passport.authenticate('jwt', { session: false }), async (req, res) => {
    const {product, price, quantity, date} = req.body;
    const sold = Sold({
     product,
@@ -19,7 +20,7 @@ router.post('/', async (req, res) => {
     quantity,
     totalPrice: (price*quantity),
     date,
-    
+    user: req.user._id,
     
    })
    await sold.save();
