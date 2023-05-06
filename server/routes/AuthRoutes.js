@@ -26,19 +26,18 @@ router.post('/register', async (req, res) => {
     //save data to mongoDB
     const user = User({name, email, password: hashedPassword});
     await user.save();
-    console.log(user);
    // res.json({message: 'success'});
-     res.status(200).json({message: 'succuess'});
+     res.status(200).json({message: 'success'});
 });
    
 
 router.post('/login', async (req, res) => {
+try{
     //get all form data
     const {email, password} = req.body;
     
     //check if email exist
     const user = await User.findOne({email})
-     console.log(user);
     if(user===null){
         res.status(204).json({message: 'user not found'});
     }
@@ -52,9 +51,13 @@ router.post('/login', async (req, res) => {
             res.status(200).json({message: "user logged", token});
         }
         else{
-            res.status(204).json({message:"password didnt match"});
+           res.status(204).json({message:"password didnt match"});
         }
     };
+}
+catch(error){
+   return res.status(500).json({message: 'Server is not responding!'})
+}
     
 
 });

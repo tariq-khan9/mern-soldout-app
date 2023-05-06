@@ -5,15 +5,13 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import cookie from 'js-cookie';
 import { LoggedContext } from '../App';
 import {useNavigate} from 'react-router-dom';
 
 export default function Navbar() {
- const [loginLogout, setLoginLogout] = useState('Login');
- const {logged, setLogged} = useContext(LoggedContext);
+ 
+ const {logged, setLogged, setLoginData} = useContext(LoggedContext);
  
   const navigate = useNavigate();
 
@@ -21,8 +19,11 @@ export default function Navbar() {
     if(logged===true){
       cookie.remove('token');
       setLogged(false);
+      setLoginData({
+        email:'',
+        password:'',
+      });
     }
-    console.log(logged);
     navigate('/login');
   }
   return (
@@ -31,20 +32,11 @@ export default function Navbar() {
         <Box sx={{ flexGrow: 1 }} >
         <AppBar position="static" color='secondary'  sx={{marginBottom:'20px'}}>
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontFamily:'revert',color:'#33001a',fontSize:'25px', textShadow: '0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6'}}>
               Daily Soldouts
             </Typography>
-           <Button onClick={btnLoginLogout} color="inherit">{logged===true ? 'Logout': 'Login'}</Button>
-            <Button onClick={()=>navigate('/register')}  color="inherit">{logged ? '': 'Register'}</Button>
+           <Button sx={{textTransform:'none'}} onClick={btnLoginLogout} color="inherit">{logged===true ? 'Logout': 'Login'}</Button>
+            <Button sx={{textTransform:'none'}} onClick={()=>navigate('/register')}  color="inherit">{logged ? '': 'Register'}</Button>
           </Toolbar>
         </AppBar>
       </Box>

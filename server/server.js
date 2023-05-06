@@ -9,9 +9,16 @@ import AuthRoutes from './routes/AuthRoutes.js';
 
 const app = express();
 const PORT = 5000;
-
+try{
 await mongoose.connect("mongodb+srv://tariq:nature@tariq-mern.g995gqd.mongodb.net/?retryWrites=true&w=majority")
 console.log("MongoDB Connected")
+
+}
+catch(error){
+  console.log(error)
+ 
+ 
+}
 
 app.use(cors());
 app.use(bodyParser.json());

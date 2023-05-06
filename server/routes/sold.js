@@ -7,7 +7,8 @@ const router = Router();
   
 router.get('/',passport.authenticate('jwt', { session: false }), async (req, res) => {
     const sold = await Sold.find({user: req.user._id}).sort({price: -1});
-    res.json({data: sold});
+    
+    res.json({sold: sold});
     
     
 });
@@ -18,7 +19,6 @@ router.post('/',passport.authenticate('jwt', { session: false }), async (req, re
     product,
     price,
     quantity,
-    totalPrice: (price*quantity),
     date,
     user: req.user._id,
     

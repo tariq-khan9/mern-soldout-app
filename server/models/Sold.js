@@ -6,7 +6,6 @@ const soldSchema = new Schema({
   product: String,
   price: Number,
   quantity: Number,
-  totalPrice: Number,
   date: Date, 
   user: mongoose.Types.ObjectId,
   

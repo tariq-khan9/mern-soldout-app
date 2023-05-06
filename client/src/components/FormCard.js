@@ -21,7 +21,7 @@ export default function FormCard({fetchSold, editData, setEditData, formateDate}
   }
 
   const [formData , setFormData] = useState(formDataInitial)
-
+  
   useEffect(() => {
     if(editData!=={}){
       const oldDate = formateDate(editData.date);
@@ -76,10 +76,10 @@ export default function FormCard({fetchSold, editData, setEditData, formateDate}
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         {Object.keys(editData).length===0 && (
-             <Typography variant='h6' sx={{marginLeft: '20px', marginBottom:'20px'}}>Add New Record</Typography>
+             <Typography variant='h6' sx={{marginLeft: '20px', marginBottom:'20px'}} style={{color:'#7b1fa2', fontSize:'25px', fontFamily:'revert'}}>Add New Soldout</Typography>
         )}
         {Object.keys(editData).length!==0 && (
-             <Typography variant='h6' sx={{marginLeft: '20px', marginBottom:'20px'}}>Update Record</Typography>
+             <Typography variant='h6' sx={{marginLeft: '20px', marginBottom:'20px'}} style={{color:'#7b1fa2', fontSize:'25px', fontFamily:'revert'}}>Update Soldout</Typography>
         )}
         <form onSubmit={handleSubmit} >
           <TextField id="outlined-basic" color='secondary' style={{marginLeft: '20px', marginTop: '10px'}} size='small' label="Product" variant="outlined" type='text' name='product' value={formData.product} onChange={handleInput} placeholder='Enter Product' />

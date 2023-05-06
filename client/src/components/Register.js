@@ -1,6 +1,7 @@
 import { TextField, Grid, Button, Box, Alert, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {LoggedContext} from '../App.js';
 
 
 const Register = () => {
@@ -8,8 +9,10 @@ const Register = () => {
     status: false,
     msg: "",
     type: ""
-  })
+  });
+  const {loginData, setLoginData} = useContext(LoggedContext);
   const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -29,12 +32,19 @@ const Register = () => {
             
           }
         }).then(res => res.json()).then(data => {
-          console.log(data); // this will log the resolved value of the promise
+          // this will log the resolved value of the promise
           if(data.message==='success'){
-            setError({ status: true, msg: "success", type: 'success' })
+            setError({ status: true, msg: "success", type: 'success' });
+            setLoginData({
+              email: actualData.email,
+              password: actualData.password,
+            });
             navigate('/login');
-            console.log('created success');
            // document.getElementById('registration-form').reset()
+          }
+          else if(data.message==='User already exists'){
+            setError({ status: true, msg: "User exists already", type: 'error' })
+          
           }
         })
         .catch(error => {
@@ -50,8 +60,6 @@ const Register = () => {
       } 
       else { 
         setError({ status: true, msg: "Password and Confirm Password Doesn't Match", type: 'error' })
-      
-        
       }
     } else {
       setError({ status: true, msg: "All Fields are Required", type: 'error' })
@@ -72,7 +80,7 @@ const Register = () => {
   <Grid container sx={{marginTop:'30px'}}>
     <Grid item lg={4} sm={4}></Grid>
     <Grid item lg={4} sm={4}>
-        <Typography>Register here</Typography>
+        <Typography style={{color:'#7b1fa2', fontSize:'25px', fontFamily:'revert'}}>Register here</Typography>
         <Box component='form' noValidate sx={{ mt: 1 }} id='registration-form' onSubmit={handleSubmit} >
         <TextField color='secondary' size='small' margin='normal' required fullWidth id='name' name='name' label='Name' />
         <TextField color='secondary' size='small' margin='normal' required fullWidth id='email' name='email' label='Email Address' />

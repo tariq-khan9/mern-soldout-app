@@ -12,11 +12,15 @@ export const LoggedContext = createContext();
 
 function App() {
   const token = cookie.get('token');
+  const [loginData, setLoginData] = useState({
+    email: '',
+    password:'',
+  });
   const [logged, setLogged] = useState(token ? true: false);
   
   return (
     <>
-    <LoggedContext.Provider value={{logged, setLogged}}>
+    <LoggedContext.Provider value={{logged, setLogged, loginData, setLoginData}}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout/>}>

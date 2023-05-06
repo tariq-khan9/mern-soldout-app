@@ -15,6 +15,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import cookie from 'js-cookie';
+import { Grid } from '@mui/material';
 
 
 
@@ -39,8 +40,9 @@ const Home = () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const {data} = await res.json();
-    setSoldData(data);
+    const {sold} = await res.json();
+    setSoldData(sold);
+    console.log(sold);
   }
 
   async function remove(id){
@@ -57,18 +59,21 @@ const Home = () => {
   return (   
   
   <div>
-    <Container>
-    <FormCard fetchSold={fetchSold} editData={editData} setEditData={setEditData} formateDate={formateDate}/>
+    <Grid sx={{mx:'20px'}}>
+    <Grid container>
+      <Grid item lg={5} sm={5} sx={{height:'500px', width:'200px', backgroundColor:'blue'}}>
+         
+      </Grid>
+      <Grid item style={{overflow:'auto', height:'500px'}} lg={7} sm={7}>
+      <FormCard fetchSold={fetchSold} editData={editData} setEditData={setEditData} formateDate={formateDate}/>
       <hr/>
     <TableContainer component={Paper}>
       <Table  aria-label="simple table">
-        <Button onClick={()=> {console.log(editData)}}>dfdf</Button>
         <TableHead>
           <TableRow>
             <TableCell style={{fontWeight:'bolder'}} align="center">Product</TableCell>
             <TableCell style={{fontWeight:'bolder'}} align="center">Price</TableCell>
             <TableCell style={{fontWeight:'bolder'}} align="center">Quantity</TableCell>
-            <TableCell style={{fontWeight:'bolder'}} align="center">Total Price</TableCell>
             <TableCell style={{fontWeight:'bolder'}} align="center">Date</TableCell>
             <TableCell style={{fontWeight:'bolder'}} align="center">Actions</TableCell>
           </TableRow>
@@ -84,7 +89,6 @@ const Home = () => {
               </TableCell>
               <TableCell align="center">{row.price}</TableCell>
               <TableCell align="center">{row.quantity}</TableCell>
-              <TableCell align="center">{row.totalPrice}</TableCell>
               <TableCell align="center">{formateDate(row.date)}</TableCell>
               <TableCell align='center' >
               <Button onClick={()=> setEditData(row)}  sx={{paddingLeft:'25px', paddingRight:'25px'}} color='secondary' variant="outlined">Edit</Button>
@@ -95,7 +99,9 @@ const Home = () => {
         </TableBody>
       </Table>
     </TableContainer>
-  </Container>
+      </Grid>
+  </Grid>
+  </Grid>
   </div>
 
   )
