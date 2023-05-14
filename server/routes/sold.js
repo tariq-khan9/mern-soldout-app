@@ -7,8 +7,25 @@ const router = Router();
   
 router.get('/',passport.authenticate('jwt', { session: false }), async (req, res) => {
     const sold = await Sold.find({user: req.user._id}).sort({price: -1});
+
+    const chartData = await Sold.aggregate([
+      {
+         $match: {user: req.user._id}
+      },
+      {
+         $group: {
+            _id: {$month: "$date"},
+            data: {
+               $push: {product: "$product", price: "$price", quantity:"$quantity", date:"$date"},
+            },
+           
+            totalAmount: { $sum: { $multiply: [ "$quantity", "$price" ] } },
+         }
+      }
+   
+    ]).sort({_id: 1});
     
-    res.json({sold: sold});
+    res.json({sold: chartData});
     
     
 });

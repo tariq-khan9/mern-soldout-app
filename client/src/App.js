@@ -6,6 +6,7 @@ import Layout from './components/Layout';
 import cookie from 'js-cookie';
 import Login from './components/Login';
 import Register from './components/Register';
+import SoldChart from './components/SoldChart';
 
 export const LoggedContext = createContext();
 

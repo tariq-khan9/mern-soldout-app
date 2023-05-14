@@ -16,6 +16,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import cookie from 'js-cookie';
 import { Grid } from '@mui/material';
+import SoldChart from './SoldChart.js';
 
 
 
@@ -27,7 +28,7 @@ const Home = () => {
 
   useEffect(()=> {
     fetchSold()
-  }, []);
+  }, []); 
 
   function formateDate(date){
     return dayjs(date).format("MM-DD-YYYY");
@@ -61,8 +62,8 @@ const Home = () => {
   <div>
     <Grid sx={{mx:'20px'}}>
     <Grid container>
-      <Grid item lg={5} sm={5} sx={{height:'500px', width:'200px', backgroundColor:'blue'}}>
-         
+      <Grid item lg={5} sm={5} sx={{height:'500px', width:'200px', px:'20px'}}>
+         <SoldChart data={soldData}/>
       </Grid>
       <Grid item style={{overflow:'auto', height:'500px'}} lg={7} sm={7}>
       <FormCard fetchSold={fetchSold} editData={editData} setEditData={setEditData} formateDate={formateDate}/>
@@ -79,23 +80,26 @@ const Home = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {soldData.map((row) => (
-            <TableRow
-              key={row._id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell align='center' component="th" scope="row">
-                {row.product}
-              </TableCell>
-              <TableCell align="center">{row.price}</TableCell>
-              <TableCell align="center">{row.quantity}</TableCell>
-              <TableCell align="center">{formateDate(row.date)}</TableCell>
-              <TableCell align='center' >
-              <Button onClick={()=> setEditData(row)}  sx={{paddingLeft:'25px', paddingRight:'25px'}} color='secondary' variant="outlined">Edit</Button>
-              <Button color='error' onClick={()=> remove(row._id)} sx={{marginLeft:'10px'}}  variant="outlined">Delete</Button>
-              </TableCell>
-            </TableRow>
+          {soldData.map(month=>(
+            month.data.map((row) => (
+              <TableRow
+                key={row._id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell align='center' component="th" scope="row">
+                  {row.product}
+                </TableCell>
+                <TableCell align="center">{row.price}</TableCell>
+                <TableCell align="center">{row.quantity}</TableCell>
+                <TableCell align="center">{formateDate(row.date)}</TableCell>
+                <TableCell align='center' >
+                <Button onClick={()=> setEditData(row)}  sx={{paddingLeft:'25px', paddingRight:'25px'}} color='secondary' variant="outlined">Edit</Button>
+                <Button color='error' onClick={()=> remove(row._id)} sx={{marginLeft:'10px'}}  variant="outlined">Delete</Button>
+                </TableCell>
+              </TableRow>
+            ))
           ))}
+          
         </TableBody>
       </Table>
     </TableContainer>
