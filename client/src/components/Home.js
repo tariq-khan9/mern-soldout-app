@@ -65,44 +65,48 @@ const Home = () => {
       <Grid item lg={5} sm={5} sx={{height:'500px', width:'200px', px:'20px'}}>
          <SoldChart data={soldData}/>
       </Grid>
-      <Grid item style={{overflow:'auto', height:'500px'}} lg={7} sm={7}>
-      <FormCard fetchSold={fetchSold} editData={editData} setEditData={setEditData} formateDate={formateDate}/>
+      <Grid item  lg={7} sm={7}>
+        <Grid>
+         <FormCard fetchSold={fetchSold} editData={editData} setEditData={setEditData} formateDate={formateDate}/>
+        </Grid>
       <hr/>
-    <TableContainer component={Paper}>
-      <Table  aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell style={{fontWeight:'bolder'}} align="center">Product</TableCell>
-            <TableCell style={{fontWeight:'bolder'}} align="center">Price</TableCell>
-            <TableCell style={{fontWeight:'bolder'}} align="center">Quantity</TableCell>
-            <TableCell style={{fontWeight:'bolder'}} align="center">Date</TableCell>
-            <TableCell style={{fontWeight:'bolder'}} align="center">Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {soldData.map(month=>(
-            month.data.map((row) => (
-              <TableRow
-                key={row._id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell align='center' component="th" scope="row">
-                  {row.product}
-                </TableCell>
-                <TableCell align="center">{row.price}</TableCell>
-                <TableCell align="center">{row.quantity}</TableCell>
-                <TableCell align="center">{formateDate(row.date)}</TableCell>
-                <TableCell align='center' >
-                <Button onClick={()=> setEditData(row)}  sx={{paddingLeft:'25px', paddingRight:'25px'}} color='secondary' variant="outlined">Edit</Button>
-                <Button color='error' onClick={()=> remove(row._id)} sx={{marginLeft:'10px'}}  variant="outlined">Delete</Button>
-                </TableCell>
+        <Grid style={{overflow:'auto', height:'250px'}}>
+        <TableContainer component={Paper}>
+          <Table  aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell style={{fontWeight:'bolder'}} align="center">Product</TableCell>
+                <TableCell style={{fontWeight:'bolder'}} align="center">Price</TableCell>
+                <TableCell style={{fontWeight:'bolder'}} align="center">Quantity</TableCell>
+                <TableCell style={{fontWeight:'bolder'}} align="center">Date</TableCell>
+                <TableCell style={{fontWeight:'bolder'}} align="center">Actions</TableCell>
               </TableRow>
-            ))
-          ))}
-          
-        </TableBody>
-      </Table>
-    </TableContainer>
+            </TableHead>
+            <TableBody>
+              {soldData.map(month=>(
+                month.data.map((row) => (
+                  <TableRow
+                    key={row._id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell align='center' component="th" scope="row">
+                      {row.product}
+                    </TableCell>
+                    <TableCell align="center">{row.price}</TableCell>
+                    <TableCell align="center">{row.quantity}</TableCell>
+                    <TableCell align="center">{formateDate(row.date)}</TableCell>
+                    <TableCell align='center' >
+                    <Button onClick={()=> setEditData(row)}  sx={{paddingLeft:'25px', paddingRight:'25px'}} color='secondary' variant="outlined">Edit</Button>
+                    <Button color='error' onClick={()=> remove(row._id)} sx={{marginLeft:'10px'}}  variant="outlined">Delete</Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ))}
+              
+            </TableBody>
+          </Table>
+        </TableContainer>
+        </Grid>
       </Grid>
   </Grid>
   </Grid>
